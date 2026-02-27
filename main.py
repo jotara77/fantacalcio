@@ -5,4 +5,4 @@ f = open("dataset/fantacalcio.json","r")
 data = json.load(f)
 f.close()
 
-print(data)
+print("hello")
