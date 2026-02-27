@@ -12,6 +12,5 @@ class Excel:
                 lista.append(calciatore)
         return lista
     
-    def 
 
         
