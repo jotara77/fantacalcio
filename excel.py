@@ -25,23 +25,25 @@ class Excel:
         active = self.wb.active
         
 
-    def crea_fogli_per_stagioni(self, stagioni):    
-        stagioni=["2019_2020","2020_2021", "2021_2022", "2022_2023", "2023_2024"]
+    def crea_fogli_per_stagioni(self, stagioni:list[str]):    
         for stagione in stagioni:
             sheet=self.wb.create_sheet(stagione)
             headers= ["Nome", "Media_voti", "MediaFanta", "Squadra", "Ruolo"]
             for col, header in enumerate(headers, start=1):
                 sheet.cell(row=1, column=col).value = header
-        sheet.freeze_panes = "A2"
-        riga = 2
-        for calciatore in self.calciatori:
-            if calciatore.attivo(stagione):
-                sheet.cell(row=riga, column=1).value = calciatore.nome
-                sheet.cell(row=riga, column=2).value = calciatore.media_voti(stagione)
-                sheet.cell(row=riga, column=3).value = calciatore.media_fanta(stagione)
-                sheet.cell(row=riga, column=4).value = calciatore.squadra
-                sheet.cell(row=riga, column=5).value = calciatore.ruolo
-                riga += 1
+            sheet.freeze_panes = "A2"
+            riga = 2
+            for calciatore in self.calciatori:
+                print(calciatore)
+                print(stagione)
+                print(stagione==calciatore.stagione)
+                if calciatore.attivo(stagione):
+                    print("cio")
+                    sheet.cell(row=riga, column=1).value = calciatore.nome
+                    sheet.cell(row=riga, column=2).value = calciatore.media_voti[stagione]
+                    sheet.cell(row=riga, column=3).value = calciatore.media_voti_fanta[stagione]
+                    sheet.cell(row=riga, column=4).value = calciatore.squadra
+                    riga += 1
         return self.wb.save
 
 

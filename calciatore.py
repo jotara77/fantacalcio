@@ -23,6 +23,9 @@ class Calciatore:
         return f"stagione: {self.stagione}, media_voti: {self.media_voti}, media_voti_fanta: {self.media_voti_fanta}, squadra: {self.squadra}"
 
     def attivo(self, stagione):
-        return self.stagione == stagione
+        return self.stagione == stagione and self.media_voti.get(stagione) != None and self.media_voti_fanta.get(stagione) != None
+    
+    
+
     
     
