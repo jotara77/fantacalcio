@@ -26,8 +26,9 @@ class Excel:
         
 
     def crea_fogli_per_stagioni(self, stagioni):    
+        stagioni=["2019_2020","2020_2021", "2021_2022", "2022_2023", "2023_2024"]
         for stagione in stagioni:
-            sheet=self.wb.create_sheet(title=stagione)
+            sheet=self.wb.create_sheet(stagione)
             headers= ["Nome", "Media_voti", "MediaFanta", "Squadra", "Ruolo"]
             for col, header in enumerate(headers, start=1):
                 sheet.cell(row=1, column=col).value = header
@@ -42,11 +43,19 @@ class Excel:
                 sheet.cell(row=riga, column=5).value = calciatore.ruolo
                 riga += 1
         return self.wb
-        
-        
+
+
+
+
+
+
+
+
+
+
         # active.append(calciatori)
 
-    def save_to_file(self,file_path:str):
-        self.wb.save(file_path)
+    #def save_to_file(self,file_path:str):
+        #self.wb.save(file_path)
 
     
