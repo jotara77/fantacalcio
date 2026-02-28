@@ -42,7 +42,7 @@ class Excel:
                 sheet.cell(row=riga, column=4).value = calciatore.squadra
                 sheet.cell(row=riga, column=5).value = calciatore.ruolo
                 riga += 1
-        return self.wb
+        return self.wb.save
 
 
 
@@ -52,10 +52,9 @@ class Excel:
 
 
 
+    #active.append(calciatori)
 
-        # active.append(calciatori)
-
-    #def save_to_file(self,file_path:str):
-        #self.wb.save(file_path)
+    def save_to_file(self,file_path:str):
+     self.wb.save(file_path)
 
     
