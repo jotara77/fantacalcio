@@ -22,29 +22,31 @@ class Excel:
                 self.wb.create_sheet
 
     def scrivi_statistiche(self, stagione):
-        active = self.wb.active
-        
-
-    def crea_fogli_per_stagioni(self, stagioni:list[str]):    
-        for stagione in stagioni:
-            sheet=self.wb.create_sheet(stagione)
+        """
+        inserisce i dati dei calciatori nel foglio <stagione> excel se esiste
+        """
+        sheet= self.wb[stagione] #prende il foglio dal nome stagione
+        if sheet:
             headers= ["Nome", "Media_voti", "MediaFanta", "Squadra", "Ruolo"]
             for col, header in enumerate(headers, start=1):
                 sheet.cell(row=1, column=col).value = header
             sheet.freeze_panes = "A2"
             riga = 2
             for calciatore in self.calciatori:
-                print(calciatore)
-                print(stagione)
-                print(stagione==calciatore.stagione)
                 if calciatore.attivo(stagione):
-                    print("cio")
                     sheet.cell(row=riga, column=1).value = calciatore.nome
                     sheet.cell(row=riga, column=2).value = calciatore.media_voti[stagione]
                     sheet.cell(row=riga, column=3).value = calciatore.media_voti_fanta[stagione]
                     sheet.cell(row=riga, column=4).value = calciatore.squadra
+                    sheet.cell(row=riga, column=5).value = calciatore.ruolo
                     riga += 1
-        return self.wb.save
+
+
+    def crea_fogli_per_stagioni(self, stagioni:list[str]):    
+        for stagione in stagioni:
+            self.wb.create_sheet(stagione)
+            
+        return
 
 
 
