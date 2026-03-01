@@ -21,8 +21,10 @@ foglio = Excel(calciatori=calciatori)
 
 excel = Excel(calciatori)
 
-excel.crea_fogli_per_stagioni(["s_23_24", "s_22_23", "s_21_22"])
-excel.scrivi_statistiche("s_23_24")
+stagioni =["s_23_24", "s_22_23", "s_21_22","s_20_21","s_19_20","s_18_19"]
+
+excel.crea_fogli_per_stagioni(stagioni)
+excel.scrivi_statistiche(stagioni)
 excel.save_to_file("real.xlsx")
 f.close()
 
