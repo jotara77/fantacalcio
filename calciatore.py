@@ -3,13 +3,14 @@ import numpy as np
 import matplotlib as mp
 
 class Calciatore:
-    def __init__(self, nome, ruolo, stagione, media_voti, media_voti_fanta, squadra):
+    def __init__(self, nome, ruolo, stagione, media_voti, media_voti_fanta, squadra, gamestats):
         self.nome: str = nome
         self.ruolo: str = ruolo
         self.stagione: list =  stagione
         self.media_voti: dict = media_voti
         self.media_voti_fanta: dict = media_voti_fanta
         self.squadra: str = squadra
+        self.gamestats: dict = gamestats
         
         
 
@@ -20,12 +21,16 @@ class Calciatore:
         stats:list = elem["stats"]
         media_voti_per_stagione={}
         media_voti_fanta_per_stagione={}
+        gamestats = {}
         for s in stats:
             if s["mv"] != None and s["fmv"] != None:  #non salvo mv e fmv per la stagione SE NON esisitono
                 media_voti_per_stagione[s["season"]] = s["mv"]
                 media_voti_fanta_per_stagione[s["season"]] = s["fmv"]
+        
+        for g in elem["gamestats"]:
+            gamestats[g["day"]]=g   #creo un dizionario per ogni giornata giocata con dentro le gamestats di quella giornata
 
-        return Calciatore(nome= elem["name"],ruolo= elem["role"],stagione=elem["season"], media_voti=media_voti_per_stagione, media_voti_fanta = media_voti_fanta_per_stagione, squadra=elem["team_name_short"])
+        return Calciatore(nome= elem["name"],ruolo= elem["role"],stagione=elem["season"], media_voti=media_voti_per_stagione, media_voti_fanta = media_voti_fanta_per_stagione, squadra=elem["team_name_short"], gamestats = gamestats)
 
     def __str__(self):
         return f"stagione: {self.stagione}, media_voti: {self.media_voti}, media_voti_fanta: {self.media_voti_fanta}, squadra: {self.squadra}"
