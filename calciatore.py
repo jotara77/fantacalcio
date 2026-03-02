@@ -61,7 +61,7 @@ class Calciatore:
         plt.show()
         return 
 
-    def stats_player_from_json(self):
+    # def stats_player_from_json(elem):
 
 
         
