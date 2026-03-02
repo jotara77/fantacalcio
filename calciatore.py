@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt 
+import numpy as np
+import matplotlib as mp
+
 class Calciatore:
     def __init__(self, nome, ruolo, stagione, media_voti, media_voti_fanta, squadra):
         self.nome: str = nome
@@ -6,6 +10,8 @@ class Calciatore:
         self.media_voti: dict = media_voti
         self.media_voti_fanta: dict = media_voti_fanta
         self.squadra: str = squadra
+        
+        
 
     def from_json(elem)->Calciatore:
         """
@@ -31,7 +37,33 @@ class Calciatore:
         """
         return self.media_voti.get(stagione, 0) != 0 and self.media_voti_fanta.get(stagione, 0) != 0
     
-    
+    def crea_grafico_voti(self, path):
+        """
+        Crea il grafico della media dei voti di questo calciatore e salva il grafico in un immagine a <path>
+        """
+        x_stagioni = np.array(list(self.media_voti.keys()))
+        y_valori_mv = np.array(list(self.media_voti.values()))
+        x_stagioni_fmv = np.array(list(self.media_voti_fanta.keys()))
+        y_valori_fmv = np.array(list(self.media_voti_fanta.values()))
+        plt.plot(x_stagioni, y_valori_mv,
+             marker="o",
+             markersize=8,
+             label="Media Voto")
 
-    
+        plt.plot(x_stagioni_fmv, y_valori_fmv,
+             marker="s",
+             markersize=8,
+             label="Media Voto Fanta")
+
+        plt.xlabel("stagione")
+        plt.ylabel("media voto e media voto fanta")
+        plt.title("Andamento media voto e media voto fanta del calciatore: " +self.nome)
+        plt.show()
+        return 
+
+    def stats_player_from_json(self):
+
+
+        
+
     
