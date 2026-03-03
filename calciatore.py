@@ -27,9 +27,10 @@ class Calciatore:
                 media_voti_per_stagione[s["season"]] = s["mv"]
                 media_voti_fanta_per_stagione[s["season"]] = s["fmv"]
         
-        for g in elem["gamestats"]:
-            gamestats[g["day"]]=g   #creo un dizionario per ogni giornata giocata con dentro le gamestats di quella giornata
-
+        
+        for g in elem.get("gamestats",[]):
+            gamestats[g["day"]]=g      #creo un dizionario per ogni giornata giocata con dentro le gamestats di quella giornata
+                
         return Calciatore(nome= elem["name"],ruolo= elem["role"],stagione=elem["season"], media_voti=media_voti_per_stagione, media_voti_fanta = media_voti_fanta_per_stagione, squadra=elem["team_name_short"], gamestats = gamestats)
 
     def __str__(self):
@@ -66,9 +67,66 @@ class Calciatore:
         plt.show()
         return 
 
-    # def stats_player_from_json(elem):
-
-
-        
-
+    def stats_player_grafico(self, stagione):
     
+        giorni = []
+        y_voto = []
+        y_gol = []
+        y_sub_in = []
+        y_sub_out = []
+
+        # filtro per stagione
+        for g, stats in self.gamestats.items():
+            if stats.get("season") == stagione:
+                giorni.append(int(g))
+
+        giorni.sort()
+
+        for g in giorni:
+            stats = self.gamestats[g]
+
+            giorni_val = g
+            voto = stats.get("vote", 0)
+            gol = stats.get("gol_fatti", 0)
+
+            sub_in = stats.get("sub_in")
+            if sub_in is None:
+                sub_in = 0
+
+            sub_out = stats.get("sub_out")
+            if sub_out is None:
+                sub_out = 0
+
+            giorni_val = int(g)
+
+            y_voto.append(voto)
+            y_gol.append(gol)
+            y_sub_in.append(sub_in )  #/ 90) * 10)
+            y_sub_out.append(sub_out)   #/ 90) * 10)
+
+        # CREAZIONE GRAFICO
+        fig, ax1 = plt.subplots()
+
+        # Asse sinistro
+        ax1.plot(giorni, y_voto, marker="o", color= "blue",label="Voto")
+        ax1.plot(giorni, y_gol, marker="s", color= "green",label="Gol Fatti")
+        ax1.set_xlabel("Giornata")
+        ax1.set_ylabel("Voto e Gol")
+        ax1.set_ylim(bottom=0)
+
+        # Asse destro
+        ax2 = ax1.twinx()
+        ax2.plot(giorni, y_sub_in, marker="^", linestyle="--", color="red", label="Sub In (norm)")
+        ax2.plot(giorni, y_sub_out, marker="v", linestyle="--", color= "orange", label="Sub Out (norm)")
+        ax2.set_ylabel("Minuti normalizzati")
+        ax2.set_ylim(bottom=0)
+
+        # Legenda 
+        lines1, labels1 = ax1.get_legend_handles_labels()
+        lines2, labels2 = ax2.get_legend_handles_labels()
+        ax1.legend(lines1 + lines2, labels1 + labels2)
+        #asse x
+        ax1.set_xlim(left=1)
+
+        plt.title("Statistiche di " + self.nome + " - " + stagione)
+        plt.show()

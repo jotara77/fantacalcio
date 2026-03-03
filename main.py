@@ -24,9 +24,6 @@ foglio = Excel(calciatori=calciatori)
 stagioni =["s_23_24", "s_22_23", "s_21_22","s_20_21","s_19_20","s_18_19"]
 #foglio.scrivi_statistiche("s_23_24")
 #foglio.save_to_file("test.xls)
-c1 = Calciatore("mario","A","2018_2019",{"2018_2019":30,"2019_2020":10,"2024_2025":18},{"2018_2019":12,"2019_2020":8,"2024_2025":6}, "Lazio")
-# c2 = Calciatore("giorgio", "2019_2020",{"2019_2020":"8"},{"2019_2020":"125"}, "Juventus")
-# c3 = Calciatore("sara", "2024_2025", {"2024_2025":"6"},{"2024_2025":"142"}, "milan")
 lista_calciatori = []
 
 
@@ -35,11 +32,13 @@ for elem in data.values():
     lista_calciatori.append(c)
 
 
+
+"""""
 for squadra in squadre:
     sq:Squadra = Squadra.from_lista_calciatori(squadra,lista_calciatori,stagioni)
     sq.grafico_squadra("grafico.png")
 
-
+"""
 
 
 
@@ -61,3 +60,4 @@ for squadra in squadre:
 # excel.save_to_file("real.xlsx")
 # f.close()
 
+calciatori[89].stats_player_grafico("s_19_20")
