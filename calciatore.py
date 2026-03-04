@@ -1,8 +1,8 @@
+#installazione dei pacchetti numpy e matplotlib per la rappresentazione dei dati attraverso i grafici 
 import matplotlib.pyplot as plt 
 import numpy as np
-import matplotlib as mp
 
-class Calciatore:
+class Calciatore:     #Crea una classe denominata "Calciatore" definendo i sui dati
     def __init__(self, nome, ruolo, stagione, media_voti, media_voti_fanta, squadra, gamestats):
         self.nome: str = nome
         self.ruolo: str = ruolo
@@ -14,39 +14,29 @@ class Calciatore:
         
         
 
-    def from_json(elem)->Calciatore:
-        """
-        Crea un oggetto Calciatore dato un elemento della lista dei calciatori del Json
-        """
+    def from_json(elem)->Calciatore:   #Crea un oggetto Calciatore dato un elemento della lista dei calciatori del Json
         stats:list = elem["stats"]
         media_voti_per_stagione={}
         media_voti_fanta_per_stagione={}
         gamestats = {}
         for s in stats:
-            if s["mv"] != None and s["fmv"] != None:  #non salvo mv e fmv per la stagione SE NON esisitono
+            if s["mv"] != None and s["fmv"] != None:  ##non salvo mv e fmv per la stagione SE NON esisitono
                 media_voti_per_stagione[s["season"]] = s["mv"]
                 media_voti_fanta_per_stagione[s["season"]] = s["fmv"]
         
         
         for g in elem.get("gamestats",[]):
-            gamestats[g["day"]]=g      #creo un dizionario per ogni giornata giocata con dentro le gamestats di quella giornata
+            gamestats[g["day"]]=g      ##creo un dizionario per ogni giornata giocata con dentro le gamestats di quella giornata
                 
         return Calciatore(nome= elem["name"],ruolo= elem["role"],stagione=elem["season"], media_voti=media_voti_per_stagione, media_voti_fanta = media_voti_fanta_per_stagione, squadra=elem["team_name_short"], gamestats = gamestats)
 
-    def __str__(self):
+    def __str__(self):  #Crea una funzione che restituisce i vari dati(stagione, media voti, media voti al fantacalcio e la squadra) del calciatore selezionato
         return f"stagione: {self.stagione}, media_voti: {self.media_voti}, media_voti_fanta: {self.media_voti_fanta}, squadra: {self.squadra}"
 
-    def attivo(self, stagione):
-        """
-        controlla che la mv e fmv della stagione attiva esistano per questo calciatore
-       e che siano diverse da zero 
-        """
+    def attivo(self, stagione):    #controlla che la mv e fmv della stagione attiva esistano per questo calciatore e che siano diverse da zero
         return self.media_voti.get(stagione, 0) != 0 and self.media_voti_fanta.get(stagione, 0) != 0
     
-    def crea_grafico_voti(self, path):
-        """
-        Crea il grafico della media dei voti di questo calciatore e salva il grafico in un immagine a <path>
-        """
+    def crea_grafico_voti(self, path):             # Crea il grafico della media dei voti di questo calciatore e salva il grafico in un immagine a <path>
         x_stagioni = np.array(list(self.media_voti.keys()))
         y_valori_mv = np.array(list(self.media_voti.values()))
         x_stagioni_fmv = np.array(list(self.media_voti_fanta.keys()))
@@ -67,7 +57,7 @@ class Calciatore:
         plt.show()
         return 
 
-    def stats_player_grafico(self, stagione):
+    def stats_player_grafico(self, stagione):   #Questa funzione crea un grafico riguardante i dati (voti, gol fatti, minuti di entrata e minuti di uscita) di un giocatore selezionato in un determinato anno(stagione) nelle varie giornate giocate 
     
         giorni = []
         y_voto = []
@@ -76,7 +66,7 @@ class Calciatore:
         y_sub_out = []
 
         # filtro per stagione
-        for g, stats in self.gamestats.items():
+        for g, stats in self.gamestats.items():     #attarverso questo ciclo for avviene una partizione per stagione
             if stats.get("season") == stagione:
                 giorni.append(int(g))
 
