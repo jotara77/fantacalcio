@@ -31,7 +31,7 @@ foglio = Excel(calciatori=calciatori)
 #inserisce le statistiche nel foglio Excel
 foglio.crea_fogli_per_stagioni(stagioni)
 foglio.scrivi_statistiche(stagioni)
-foglio.save_to_file("result.xls")
+foglio.save_to_file("results.xls")
 
 exit()
 

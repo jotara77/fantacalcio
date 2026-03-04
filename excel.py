@@ -2,6 +2,7 @@
 from calciatore import Calciatore
 import pandas as pd
 import openpyxl
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
 
 class Excel:
@@ -27,16 +28,43 @@ class Excel:
 
     def scrivi_statistiche(self, stagioni:list[str]):
         """ inserisce i dati dei calciatori nei foglio <stagioni> excel se sono attivi nella stagione"""
+        #modifica dell'header
+        header_fill = PatternFill(start_color = "4F81BD", end_color = "4F81BD",  fill_type = "solid")
+        header_font= Font(bold = True, color="FFFFFF")
+        thin_border = Border(left=Side(style="thin"),right=Side(style="thin"),top=Side(style="thin"),bottom=Side(style="thin"))
+        green_fill=PatternFill(start_color="C6F5D6",end_color="C6F5D6", fill_type="solid" )
+
         for stagione in stagioni:
             sheet= self.wb[stagione] #prende il foglio dal nome stagione
             if sheet:
                 headers= ["Nome", "Media_voti", "MediaFanta", "Squadra", "Ruolo"]
-                for col, header in enumerate(headers, start=1):
-                    sheet.cell(row=1, column=col).value = header
-                sheet.freeze_panes = "A2"
+                
+                #intestazioni:
+                for col, header in enumerate(headers, start=1): 
+                   cell = sheet.cell(row=1, column=col)
+                   cell.value= header
+                   cell.fill = header_fill
+                   cell.font= header_font
+                   cell.alignment = Alignment(horizontal="center")
+                   cell.border = thin_border 
+                                       
+                sheet.freeze_panes = "A2" #blocca headers in alto
+
+                #larghezza colonne
+                sheet.column_dimensions["A"].width = 20  
+                sheet.column_dimensions["B"].width = 15
+                sheet.column_dimensions["C"].width = 15
+                sheet.column_dimensions["D"].width = 15
+                sheet.column_dimensions["E"].width = 10
+
                 riga = 2
                 for calciatore in self.calciatori:
                     if calciatore.attivo(stagione):
+                         #evidenzia la riga di verde se il voto è maggiore di 6
+                        if calciatore.media_voti[stagione] > 6:
+                                for col in range(1, 6):
+                                    sheet.cell(row=riga, column=col).fill = green_fill
+                                    
                         sheet.cell(row=riga, column=1).value = calciatore.nome
                         sheet.cell(row=riga, column=2).value = calciatore.media_voti[stagione]
                         sheet.cell(row=riga, column=3).value = calciatore.media_voti_fanta[stagione]
