@@ -1,3 +1,4 @@
+#importazione pacchetti una volta installati e importazione file python
 from calciatore import Calciatore
 import pandas as pd
 import openpyxl
@@ -6,10 +7,12 @@ import openpyxl
 class Excel:
     def __init__(self, calciatori:list[Calciatore]):
         self.calciatori: list[Calciatore] = calciatori
-        self.wb = openpyxl.Workbook()   
+        self.wb = openpyxl.Workbook()
+        self.wb.remove(self.wb.active)  #rimuove la prima pagina vuota dell'excel
     
     
     def calciatori_attivi(self, stagione)->list[Calciatore]:
+        """aggiunge alla ista i calciatori solo se sono attivi in quella stagione"""
         lista_calciatori=[]
         for calciatore in self.calciatori:
             if calciatore.attivo(stagione):
@@ -17,14 +20,13 @@ class Excel:
         return lista_calciatori
     
     def crea_foglio_excel(self, calciatori:list[Calciatore], anno:str):
+        """Creaziione di un foglio excel in cui ci sono i calciatori attivi in un determinato anno(stagione)"""
         for calciatore in calciatori:
             if calciatore.attivo(anno):
                 self.wb.create_sheet
 
     def scrivi_statistiche(self, stagioni:list[str]):
-        """
-        inserisce i dati dei calciatori nei foglio <stagioni> excel se esistono
-        """
+        """ inserisce i dati dei calciatori nei foglio <stagioni> excel se sono attivi nella stagione"""
         for stagione in stagioni:
             sheet= self.wb[stagione] #prende il foglio dal nome stagione
             if sheet:
@@ -44,22 +46,13 @@ class Excel:
 
 
     def crea_fogli_per_stagioni(self, stagioni:list[str]):    
+        """Creazione fogli excel per ogni anno con i suoi calciatori attivi"""
         for stagione in stagioni:
-            self.wb.create_sheet(stagione)
-            
+            self.wb.create_sheet(stagione)  
         return
 
-
-
-
-
-
-
-
-
-    #active.append(calciatori)
-
     def save_to_file(self,file_path:str):
-     self.wb.save(file_path)
+        #salvataggio file excel
+        self.wb.save(file_path)
 
     
