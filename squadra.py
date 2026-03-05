@@ -23,9 +23,9 @@ class Squadra:
 
         
     def andamento_media_squadra_per_stagione(self,stagione):    
-        # si ottiene una lista con la media dei voti dei calciatori di una determinata squdra in una determinata stagione
+        # si ottiene una lista con la media dei voti dei calciatori di una squdra in una determinata stagione
         media_voti_calciatore_squadra = [] 
-        for cal in self.calciatori: # dalla lista dei calciatori
+        for cal in self.calciatori: 
             if cal.media_voti.get(stagione) != None: # se la media voti esiste
                 media_voti_calciatore_squadra.append(cal.media_voti[stagione]) # aggiungi alla lista "media_voti_calciatore_squadra"
         

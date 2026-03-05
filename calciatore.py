@@ -58,6 +58,7 @@ class Calciatore:     #Crea una classe denominata "Calciatore" definendo i sui d
         plt.xlabel("stagione")
         plt.ylabel("media voto e media voto fanta")
         plt.title("Andamento media voto e media voto fanta del calciatore: " +self.nome)
+        plt.legend()
         plt.savefig(path)
         plt.close()
         return 
@@ -111,9 +112,9 @@ class Calciatore:     #Crea una classe denominata "Calciatore" definendo i sui d
 
         # Asse destro
         ax2 = ax1.twinx()
-        ax2.plot(giorni, y_sub_in, marker="^", linestyle="--", color="red", label="Sub In (norm)")
-        ax2.plot(giorni, y_sub_out, marker="v", linestyle="--", color= "orange", label="Sub Out (norm)")
-        ax2.set_ylabel("Minuti normalizzati")
+        ax2.plot(giorni, y_sub_in, marker="^", linestyle="--", color="red", label="Sub In ")
+        ax2.plot(giorni, y_sub_out, marker="v", linestyle="--", color= "orange", label="Sub Out")
+        ax2.set_ylabel("Minuti ")
         ax2.set_ylim(bottom=0)
 
         # Legenda 
@@ -128,5 +129,6 @@ class Calciatore:     #Crea una classe denominata "Calciatore" definendo i sui d
         ax1.set_xlim(left=1)
 
         plt.title("Statistiche di " + self.nome + " - " + stagione)
+        plt.tight_layout()
         fig.savefig(path)
         plt.close()

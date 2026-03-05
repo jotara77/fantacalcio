@@ -60,11 +60,11 @@ class Excel:
                 riga = 2
                 for calciatore in self.calciatori:
                     if calciatore.attivo(stagione):
-                         #evidenzia la riga di verde se il voto è maggiore di 6
-                        if calciatore.media_voti[stagione] > 6:
+                         #evidenzia la riga di verde se il voto è maggiore o uguale a 6
+                        if calciatore.media_voti[stagione] >= 6:
                                 for col in range(1, 6):
                                     sheet.cell(row=riga, column=col).fill = green_fill
-                                    
+
                         sheet.cell(row=riga, column=1).value = calciatore.nome
                         sheet.cell(row=riga, column=2).value = calciatore.media_voti[stagione]
                         sheet.cell(row=riga, column=3).value = calciatore.media_voti_fanta[stagione]
